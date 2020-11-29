@@ -319,9 +319,41 @@ function printMessageBody($email, $purifier) {
 
             </p>
         </div>
+        <div class="card card-body collapse" id="privacy" style="max-width: 40rem;">
+            <h3>Datenschutz</h3>
 
+            <h5>Beschreibung und Umfang der Datenverarbeitung</h5>
+
+            Folgende Daten werden im Rahmen der Erbringung des Einweg E-Mail Dienstes gespeichert:
+            <br /><br />
+            Nutzdaten - Informationen, die bei der Verwendung eines Dienstes entstehen:
+            <ul>
+                <li>E-Mails inklusive Inhalt und Anhang</li>
+            </ul>
+            Verkehrsdaten - Informationen, die bei der Nutzung des E-Mail-Dienstes anfallen:
+            <ul>
+                <li>SMTP: Absender, Empfänger, Nachrichten ID, Größe der versandten oder empfangenen E-Mail</li>
+            </ul>
+            <h5>Rechtsgrundlage für die Datenverarbeitung</h5>
+            Rechtsgrundlage für die Verarbeitung der Daten ist Art. 6 Abs. 1 lit. b DSGVO. Darüber hinaus verarbeiten wir Ihre personenbezogenen Daten zur Wahrung unserer berechtigten Interessen, sofern nicht Ihre Interessen oder Grundrechte und Grundfreiheiten überwiegen. Die Rechtsgrundlage hierfür ist Art. 6 Abs. 1 (f) DSGVO.
+            Zweck der Datenverarbeitung
+            Die Verarbeitung der personenbezogenen Daten dient der Bereitstellung und Funktionalität des Einweg E-Mail Dienstes.
+            <br /><br />
+            <h5>Dauer der Speicherung</h5>
+            Nutzungsdaten werden nach 1 Tag gelöscht.
+            Verkehrsdaten werden nach Ablauf der gesetzlichen Aufbewahrungsfrist gelöscht. Im Falle der Speicherung von Daten in Logfiles ist dies nach spätestens sieben Tagen der Fall. Eine darüberhinausgehende Speicherung ist möglich. In diesem Fall werden die IP-Adressen der Nutzer gelöscht oder verfremdet, sodass eine Zuordnung des aufrufenden Clients nicht mehr möglich ist.
+            <br /><br />
+            <h5>Widerspruchs- und Beseitigungsmöglichkeit</h5>
+            Der Nutzer kann die Inhaltsdaten (Email) jederzeit über die Löschfunktion selbsttätig löschen. Ein Widerspruch ist nicht möglich, da der angebotene Dienst sonst nicht erbracht werden kann.
+        </div>
         <p>
-            <small>Powered by
+            <small>
+                <a data-toggle="collapse" href="#privacy"
+                    aria-expanded="false"
+                    aria-controls="about">
+                    Datenschutz
+                </a> |
+                    Powered by
                 <a
                         href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
             </small>
