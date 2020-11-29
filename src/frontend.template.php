@@ -68,10 +68,10 @@ function printMessageBody($email, $purifier) {
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="assets/bootstrap/4.3.1/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          integrity="sha384-T8BvL2pDN59Kgod7e7p4kesUb+oyQPt3tFt8S+sIa0jUenn1byQ97GBKHUN8ZPk0"
           crossorigin="anonymous">
     <link rel="stylesheet" href="assets/fontawesome/5.15.1/all.min.css"
-          integrity="sha384-vp86vTRFVJgpjF9jiIGPEEqYqlDwgyBgEF109VFjmqGmIY/Y4HV4d3Gp2irVfcrp"
+          integrity="sha384-PeCD/lV7xE25gKYPf8+k88QGX43BoAVlEVaWbRzKBTS+WGt2FOpM2ofQ11rlYiei"
           crossorigin="anonymous">
     <title><?php
         echo $emails ? "(" . count($emails) . ") " : "";
@@ -332,13 +332,13 @@ function printMessageBody($email, $purifier) {
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="assets/jquery/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        integrity="sha384-l/z+BgBEQ5vmodKu1ZyIBOCaxL+WKCpcWNYF+bSZtiAhNZG/WxArS01uMuEZgAJu"
         crossorigin="anonymous"></script>
 <script src="assets/popper.js/1.16.1/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        integrity="sha384-kNOowQZDWMTHoqbD1uAT2huc4WUwEVBEUgpnoVt+rhKXwjxfy4qzAdhdacyS6RWG"
         crossorigin="anonymous"></script>
 <script src="assets/bootstrap/4.3.1/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        integrity="sha384-lXqCKSCzpmJ9kRbg4c4nQHayMEuwgwGO+SmKQlcp/OuWw054bPqQcHRK9yyRbKpS"
         crossorigin="anonymous"></script>
 <script src="assets/clipboard.js/clipboard.min.js"
         integrity="sha384-sNv7CSqlr8wZWpa63xuHtth1Vuo9BzfmdUz8c2Kjyl4n4PYB3MDaDdzjiXeiFxHP"
