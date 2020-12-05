@@ -1,3 +1,9 @@
+# All of the vendor directory should be installed by running 'composer install'
+vendor/
+composer.lock
+*.phar
+.php_cs.cache
+
 #################
 ## Eclipse
 #################
@@ -162,3 +168,9 @@ pip-log.txt
 
 # Mac crap
 .DS_Store
+
+# NetBeans IDE
+nbproject/
+
+# Visual Studio Code
+.vscode/
