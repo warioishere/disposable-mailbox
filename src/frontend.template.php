@@ -108,36 +108,35 @@ function printMessageBody($email, $purifier) {
 
 <div id="new-content-avalable">
     <div class="alert alert-info alert-fixed" role="alert">
-        <strong>New emails</strong> have arrived.
+        <strong>Neue E-Mail</strong> empfangen.
 
         <button type="button" class="btn btn-outline-secondary" onclick="location.reload()">
             <i class="fas fa-sync"></i>
-            Reload!
+            Neu laden!
         </button>
 
     </div>
-    <!-- move the rest of the page a bit down to show all content -->
     <div style="height: 3rem">&nbsp;</div>
 </div>
 
 <header>
     <div class="container">
         <p class="lead ">
-            Your disposable mailbox is ready.
+            Ihre Einweg-Mailbox ist eingerichtet!
         </p>
         <div class="row" id="address-box-normal">
 
             <div class="col my-address-block">
-                <span id="my-address"><?php echo $user->address ?></span>&nbsp;<button class="copy-button" data-clipboard-target="#my-address">Copy</button>
+                <span id="my-address"><?php echo $user->address ?></span>&nbsp;<button class="copy-button" data-clipboard-target="#my-address">kopieren</button>
             </div>
 
 
             <div class="col get-new-address-col">
                 <button type="button" class="btn btn-outline-dark"
-                        data-toggle="collapse" title="choose your own address"
+                        data-toggle="collapse" title="w&auml;hlen Sie Ihre eigene Adresse"
                         data-target=".change-address-toggle"
                         aria-controls="address-box-normal address-box-edit" aria-expanded="false">
-                    <i class="fas fa-magic"></i> Change address
+                    <i class="fas fa-magic"></i> Adresse &auml;ndern
                 </button>
             </div>
         </div>
@@ -149,12 +148,12 @@ function printMessageBody($email, $purifier) {
                     <p>
                         <a href="?action=random" role="button" class="btn btn-dark">
                             <i class="fa fa-random"></i>
-                            Open random mailbox
+                            zuf&auml;llige E-Mail Adresse
                         </a>
                     </p>
 
 
-                    or create your own address:
+                    oder erstellen Sie Ihre eigene Adresse:
                     <div class="form-row align-items-center">
                         <div class="col-sm">
                             <label class="sr-only" for="inlineFormInputName">username</label>
@@ -182,7 +181,7 @@ function printMessageBody($email, $purifier) {
                             </div>
                         </div>
                         <div class="col-auto my-1">
-                            <button type="submit" class="btn btn-primary">Open mailbox</button>
+                            <button type="submit" class="btn btn-primary">Mailbox &ouml;ffnen</button>
                         </div>
                     </div>
 
@@ -236,13 +235,13 @@ function printMessageBody($email, $purifier) {
                                 <a class="btn btn-outline-primary btn-sm" download="true"
                                    role="button"
                                    href="<?php echo "?action=download_email&email_id=$safe_email_id&address=$user->address" ?>">
-                                    Download
+                                    Herunterladen
                                 </a>
 
                                 <a class="btn btn-outline-danger btn-sm"
                                    role="button"
                                    href="<?php echo "?action=delete_email&email_id=$safe_email_id&address=$user->address" ?>">
-                                    Delete
+                                    L&ouml;schen
                                 </a>
                             </div>
                              <?php printMessageBody($email, $purifier); ?>
@@ -257,7 +256,7 @@ function printMessageBody($email, $purifier) {
             if (empty($emails)) {
                 ?>
                 <div id="empty-mailbox">
-                    <p>The mailbox is empty. Checking for new emails automatically. </p>
+                    <p>Die Mailbox ist leer. Es wird automatisch auf neue E-Mails geprüft. </p>
                     <div class="spinner">
                         <div class="rect1"></div>
                         <div class="rect2"></div>
@@ -285,36 +284,22 @@ function printMessageBody($email, $purifier) {
 <!--                <br>-->
 
         <small class="text-justify quick-summary">
-            This is a disposable mailbox service. Whoever knows your username, can read your emails.
-            Emails will be deleted after 30 days.
-            <a data-toggle="collapse" href="#about"
-               aria-expanded="false"
-               aria-controls="about">
-                Show Details
-            </a>
+            Dies ist ein Einweg-Mailbox-Dienst. Wer Ihren Benutzernamen kennt, kann Ihre E-Mails lesen!
+            Die E-Mails werden nach 24 Stunden gel&ouml;scht.
         </small>
         <div class="card card-body collapse" id="about" style="max-width: 40rem">
+            <h3>Details</h3>
 
-            <p class="text-justify">This disposable mailbox keeps your main mailbox clean from spam.</p>
+            <p class="text-justify">Diese Einweg-Mailbox h&auml;lt Ihre Haupt-Mailbox frei von Spam.</p>
 
-            <p class="text-justify">Just choose an address and use it on websites you don't trust and
-                don't
-                want to use
-                your
-                main email address.
-                Once you are done, you can just forget about the mailbox. All the spam stays here and does
-                not
-                fill up
-                your
-                main mailbox.
+            <p class="text-justify">W&auml;hlen Sie einfach eine Adresse aus und verwenden Sie sie auf Webseiten, denen Sie nicht vertrauen oder auf denen Sie ihre Haupt E-Mail Adresse nicht verwenden m&ouml;chten.
+                Wenn Sie fertig sind, k&ouml;nnen Sie diese Mailbox einfach vergessen. Der ganze Spam bleibt hier und ihre Haupt-Mailbox bleibt sauber.
             </p>
 
             <p class="text-justify">
-                You select the address you want to use and received emails will be displayed
-                automatically.
-                There is no registration and no passwords. If you know the address, you can read the
-                emails.
-                <strong>Basically, all emails are public. So don't use it for sensitive data.</strong>
+                Sie wählen die Adresse aus, die Sie verwenden möchten, und empfangene E-Mails werden automatisch angezeigt.
+                Es ist keine Registrierung notwendig und es gibt keine Passwörter. Jeder, der die E-Mail Adresse kennt hat Zugriff darauf!
+                <strong>Grunds&auml;tzlich sind also ALLE E-Mails &ouml;ffentlich. Verwenden Sie diese E-Mail Adresse daher nicht für sensible Daten.</strong>
 
 
             </p>
@@ -332,30 +317,36 @@ function printMessageBody($email, $purifier) {
             </ul>
             Verkehrsdaten - Informationen, die bei der Nutzung des E-Mail-Dienstes anfallen:
             <ul>
-                <li>SMTP: Absender, Empfänger, Nachrichten ID, Größe der versandten oder empfangenen E-Mail</li>
+                <li>SMTP: Absender, Empf&auml;nger, Nachrichten ID, Gr&ouml;&szlig;e der versandten oder empfangenen E-Mail</li>
             </ul>
-            <h5>Rechtsgrundlage für die Datenverarbeitung</h5>
-            Rechtsgrundlage für die Verarbeitung der Daten ist Art. 6 Abs. 1 lit. b DSGVO. Darüber hinaus verarbeiten wir Ihre personenbezogenen Daten zur Wahrung unserer berechtigten Interessen, sofern nicht Ihre Interessen oder Grundrechte und Grundfreiheiten überwiegen. Die Rechtsgrundlage hierfür ist Art. 6 Abs. 1 (f) DSGVO.
+            <h5>Rechtsgrundlage f&uuml;r die Datenverarbeitung</h5>
+            Rechtsgrundlage f&uuml;r die Verarbeitung der Daten ist Art. 6 Abs. 1 lit. b DSGVO. Dar&uuml;ber hinaus verarbeiten wir Ihre personenbezogenen Daten zur Wahrung unserer berechtigten Interessen, sofern nicht Ihre Interessen oder Grundrechte und Grundfreiheiten &uuml;berwiegen. Die Rechtsgrundlage hierf&uuml;r ist Art. 6 Abs. 1 (f) DSGVO.
             Zweck der Datenverarbeitung
-            Die Verarbeitung der personenbezogenen Daten dient der Bereitstellung und Funktionalität des Einweg E-Mail Dienstes.
+            Die Verarbeitung der personenbezogenen Daten dient der Bereitstellung und Funktionalit&auml;t des Einweg E-Mail Dienstes.
             <br /><br />
             <h5>Dauer der Speicherung</h5>
-            Nutzungsdaten werden nach 1 Tag gelöscht.
-            Verkehrsdaten werden nach Ablauf der gesetzlichen Aufbewahrungsfrist gelöscht. Im Falle der Speicherung von Daten in Logfiles ist dies nach spätestens sieben Tagen der Fall. Eine darüberhinausgehende Speicherung ist möglich. In diesem Fall werden die IP-Adressen der Nutzer gelöscht oder verfremdet, sodass eine Zuordnung des aufrufenden Clients nicht mehr möglich ist.
+            Nutzungsdaten werden nach 1 Tag gel&ouml;scht.
+            Verkehrsdaten werden nach Ablauf der gesetzlichen Aufbewahrungsfrist gel&ouml;scht. Im Falle der Speicherung von Daten in Logfiles ist dies nach sp&auml;testens sieben Tagen der Fall. Eine dar&uuml;berhinausgehende Speicherung ist m&ouml;glich. In diesem Fall werden die IP-Adressen der Nutzer gel&ouml;scht oder verfremdet, sodass eine Zuordnung des aufrufenden Clients nicht mehr m&ouml;glich ist.
             <br /><br />
-            <h5>Widerspruchs- und Beseitigungsmöglichkeit</h5>
-            Der Nutzer kann die Inhaltsdaten (Email) jederzeit über die Löschfunktion selbsttätig löschen. Ein Widerspruch ist nicht möglich, da der angebotene Dienst sonst nicht erbracht werden kann.
+            <h5>Widerspruchs- und Beseitigungsm&ouml;glichkeit</h5>
+            Der Nutzer kann die Inhaltsdaten (Email) jederzeit &uuml;ber die L&ouml;schfunktion selbstt&auml;tig l&ouml;schen. Ein Widerspruch ist nicht m&ouml;glich, da der angebotene Dienst sonst nicht erbracht werden kann.
         </div>
         <p>
-            <small>
+            <small>warth-hofer.de |
+                <a data-toggle="collapse" href="#about"
+                   aria-expanded="false"
+                   aria-controls="about">
+                    Details
+                </a> |
                 <a data-toggle="collapse" href="#privacy"
-                    aria-expanded="false"
-                    aria-controls="about">
+                   aria-expanded="false"
+                   aria-controls="about">
                     Datenschutz
                 </a> |
-                    Powered by
-                <a
-                        href="https://github.com/synox/disposable-mailbox"><strong>synox/disposable-mailbox</strong></a>
+                Quellcode:
+                <a href="https://github.com/abyssox/disposable-mailbox" target="_blank"><strong>abyssox/disposable-mailbox</strong></a>
+                <br />
+                Original Quellcode: <a href="https://github.com/synox/disposable-mailbox" target="_blank">synox/disposable-mailbox</a>
             </small>
         </p>
     </div>
@@ -385,7 +376,7 @@ function printMessageBody($email, $purifier) {
     /** from https://github.com/twbs/bootstrap/blob/c11132351e3e434f6d4ed72e5a418eb692c6a319/assets/js/src/application.js */
     clipboard.on('success', function (e) {
         $(e.trigger)
-            .attr('title', 'Copied!')
+            .attr('title', 'Kopiert!')
             .tooltip('_fixTitle')
             .tooltip('show')
             .tooltip('_fixTitle');
