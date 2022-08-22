@@ -25,12 +25,12 @@
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "HTMLPurifier": "library/"
-                },
                 "files": [
                     "library/HTMLPurifier.composer.php"
                 ],
+                "psr-0": {
+                    "HTMLPurifier": "library/"
+                },
                 "exclude-from-classmap": [
                     "/library/HTMLPurifier/Language/"
                 ]
@@ -150,16 +150,16 @@
         },
         {
             "name": "php-imap/php-imap",
-            "version": "4.5.1",
+            "version": "4.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/barbushin/php-imap.git",
-                "reference": "e630d64ccad6c575d25650ca93e793ac1a54eb12"
+                "reference": "d4f62bf2103f8bbd3ffe337e4df75e2c6ba6a2e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/e630d64ccad6c575d25650ca93e793ac1a54eb12",
-                "reference": "e630d64ccad6c575d25650ca93e793ac1a54eb12",
+                "url": "https://api.github.com/repos/barbushin/php-imap/zipball/d4f62bf2103f8bbd3ffe337e4df75e2c6ba6a2e7",
+                "reference": "d4f62bf2103f8bbd3ffe337e4df75e2c6ba6a2e7",
                 "shasum": ""
             },
             "require": {
@@ -212,7 +212,7 @@
                 "pop3",
                 "receive emails"
             ],
-            "time": "2022-01-10T21:10:27+00:00"
+            "time": "2022-03-12T01:38:35+00:00"
         }
     ],
     "packages-dev": [],
