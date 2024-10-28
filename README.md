@@ -1,7 +1,7 @@
 # disposable-mailbox
 A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelope: 
 
-![Screenshot](docs/screenshot_example.png)
+![Screenshot](docs/disposable_mail.png)
 
 ## Features
 
