@@ -1,8 +1,6 @@
 # disposable-mailbox
 A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelope: 
 
-**Demo**: [warth-hofer.de](https://warth-hofer.de) 
-
 ![Screenshot](docs/screenshot_example.png)
 
 ## Features
@@ -10,7 +8,7 @@ A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelop
 * Anonymous usage, generate random email addresses. 
 * New Mail notification. Download and delete your emails.
 * Display emails as text or html with sanitization  filter. 
-* Display emails based on one [catch-all imap mailbox](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox).
+* Display emails based on one [catch-all imap mailbox](https://de.wikipedia.org/wiki/Catch-All).
 * Only requires PHP  >=7.2 and [imap extension](http://php.net/manual/book.imap.php)
 
 ## Usage
@@ -19,7 +17,7 @@ A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelop
 
 * webserver with php >=7.2
 * php [imap extension](http://php.net/manual/book.imap.php)
-* IMAP account and a domain with [catch-all configuration](https://www.google.ch/search?q=how+to+setup+catch-all+imap+mailbox). (all emails go to one mailbox). 
+* IMAP account and a domain with [catch-all configuration](https://www.hoststar.ch/de/support/mail/konfigurieren/catch-all). (all emails go to one mailbox). 
 
 ### Before you start :heavy_exclamation_mark:
 
@@ -36,9 +34,11 @@ Disposable-mailbox can be installed by copying the src directory to a webserver.
         <?php print imap_base64("SU1BUCBleHRlbnNpb24gc2VlbXMgdG8gYmUgaW5zdGFsbGVkLiA="); ?>
 
 2. download a [release](https://github.com/synox/disposable-mailbox/releases) or clone this repository
-3. copy the files in the `src` directory to your web server (not the whole repo!).
-4. rename `config.sample.php` to `config.php` and apply the imap settings. Move `config.php` to a safe location in a *parent directory* outside the `public_html`, so it is not reachable through the browser.
-5. open it in your browser, check your php error log for messages. 
+3. Update to the php Version you have in the `composer.json` file
+4. Update your php dependcies with `composer update` if you use a higher php Version
+5. copy the files in the `src` directory to your web server (not the whole repo!).
+6. rename `config.sample.php` to `config.php` and apply the imap settings. Move `config.php` to a safe location in a *parent directory* outside the `public_html`, so it is not reachable through the browser. The Application will automatically detect your config.php if its in the parent directory for example.
+7. open it in your browser, check your php error log for messages. 
 
 
 ### Build it yourself
