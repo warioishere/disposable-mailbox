@@ -1,95 +1,87 @@
 <?php
 
+declare(strict_types=1);
+
+use PhpImap\Mailbox;
+use PhpImap\IncomingMail;
+
 class ImapClient {
 
-    /*PhpImap\Mailbox */
-    private $mailbox;
+    private Mailbox $mailbox;
 
-    public function __construct($imapPath, $login, $password) {
-        $this->mailbox = new PhpImap\Mailbox($imapPath, $login, $password);
+    public function __construct(string $imapPath, string $login, string $password) {
+        $this->mailbox = new Mailbox($imapPath, $login, $password);
     }
 
     /**
-     * returns all mails for the given $user.
-     * @param $user User
-     * @return array
+     * Returns all mails for the given $user.
      */
     public function get_emails(User $user): array {
-        // Search for mails with the recipient $address in TO or CC.
-        $mailsIdsTo = imap_sort($this->mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'TO "' . $user->address . '"');
-        $mailsIdsCc = imap_sort($this->mailbox->getImapStream(), SORTARRIVAL, true, SE_UID, 'CC "' . $user->address . '"');
-        $mail_ids = array_merge($mailsIdsTo, $mailsIdsCc);
+        $imapStream = $this->mailbox->getImapStream();
+        $mailIdsTo = imap_sort($imapStream, SORTARRIVAL, true, SE_UID, 'TO "' . $user->address . '"') ?: [];
+        $mailIdsCc = imap_sort($imapStream, SORTARRIVAL, true, SE_UID, 'CC "' . $user->address . '"') ?: [];
 
-        $emails = $this->_load_emails($mail_ids, $user);
-        return $emails;
+        $mailIds = array_unique(array_merge($mailIdsTo, $mailIdsCc));
+        return $this->_load_emails($mailIds, $user);
     }
 
-
     /**
-     * deletes emails by id and username. The address must match the recipient in the email.
-     *
-     * @param $mailid integer imap email id
-     * @param $user User
-     * @internal param the $username matching username
-     * @return true if success
+     * Deletes an email by ID if it matches the user's address.
      */
-    public function delete_email(string $mailid, User $user): bool {
-        if ($this->load_one_email($mailid, $user) !== null) {
+    public function delete_email(int $mailid, User $user): bool {
+        $email = $this->load_one_email($mailid, $user);
+        if ($email !== null) {
             $this->mailbox->deleteMail($mailid);
             $this->mailbox->expungeDeletedMails();
             return true;
-        } else {
-            return false;
         }
+        return false;
     }
 
     /**
-     * Load exactly one email, the $address in TO or CC has to match.
+     * Loads one email if the recipient matches the user's address.
      */
-    public function load_one_email(int $mailid, User $user): ?\PhpImap\IncomingMail {
-        // in order to avoid https://www.owasp.org/index.php/Top_10_2013-A4-Insecure_Direct_Object_References
-        // the recipient in the email has to match the $address.
-        @$emails = $this->_load_emails(array($mailid), $user);
+    public function load_one_email(int $mailid, User $user): ?IncomingMail {
+        $emails = $this->_load_emails([$mailid], $user);
         return count($emails) === 1 ? $emails[0] : null;
     }
 
-
-    public function load_one_email_fully($download_email_id, $user): ?string {
-        if ($this->load_one_email($download_email_id, $user) !== null) {
-            $headers = imap_fetchheader($this->mailbox->getImapStream(), $download_email_id, FT_UID);
-            $body = imap_body($this->mailbox->getImapStream(), $download_email_id, FT_UID);
+    /**
+     * Loads one email fully (headers and body).
+     */
+    public function load_one_email_fully(int $mailid, User $user): ?string {
+        $email = $this->load_one_email($mailid, $user);
+        if ($email !== null) {
+            $imapStream = $this->mailbox->getImapStream();
+            $headers = imap_fetchheader($imapStream, $mailid, FT_UID) ?: '';
+            $body = imap_body($imapStream, $mailid, FT_UID) ?: '';
             return $headers . "\n" . $body;
-        } else {
-            return null;
         }
+        return null;
     }
 
     /**
-     * Load emails using the $mail_ids, the mails have to match the $address in TO or CC.
-     * @param $mail_ids array of integer ids
-     * @param $user User
-     * @return array of emails
+     * Deletes messages older than the specified date.
      */
-    private function _load_emails(array $mail_ids, User $user) {
-        $emails = array();
-        foreach ($mail_ids as $id) {
-            $mail = $this->mailbox->getMail($id);
-            // imap_search also returns partials matches. The mails have to be filtered again:
-            if (array_key_exists($user->address, $mail->to) || array_key_exists($user->address, $mail->cc)) {
-                $emails[] = $mail;
-            }
-        }
-        return $emails;
-    }
-
-    /**
-     * deletes messages older than X days.
-     */
-    public function delete_old_messages(string $delete_messages_older_than) {
-        $ids = $this->mailbox->searchMailbox('BEFORE ' . date('d-M-Y', strtotime($delete_messages_older_than)));
+    public function delete_old_messages(string $deleteMessagesOlderThan): void {
+        $date = date('d-M-Y', strtotime($deleteMessagesOlderThan));
+        $ids = $this->mailbox->searchMailbox('BEFORE ' . $date) ?: [];
         foreach ($ids as $id) {
             $this->mailbox->deleteMail($id);
         }
         $this->mailbox->expungeDeletedMails();
+    }
+
+    /**
+     * Loads emails using the given IDs and filters them by the user's address.
+     */
+    private function _load_emails(array $mailIds, User $user): array {
+        return array_filter(
+            array_map(
+                fn($id) => $this->mailbox->getMail($id),
+                $mailIds
+            ),
+            fn($mail) => isset($mail->to[$user->address]) || isset($mail->cc[$user->address])
+        );
     }
 }
