@@ -1,7 +1,7 @@
 {
   "require": {
     "php-imap/php-imap": "*",
-    "php": "^7.2",
+    "php": "^8.3",
     "gnugat/pronounceableword": "*",
     "ezyang/htmlpurifier": "*",
     "fightbulc/moment": "*"
