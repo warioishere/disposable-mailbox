@@ -1,110 +1,110 @@
 <?php
 
+declare(strict_types=1);
+
 require_once './imap_client.php';
 
-function render_error($status, $msg) {
-    @http_response_code($status);
-    die("{'result': 'error', 'error': '$msg'}");
+function render_error(int $status, string $msg): void {
+    if ($status < 100 || $status > 599) {
+        $status = 500; // Fallback auf gültigen HTTP-Statuscode
+    }
+    http_response_code($status);
+    header('Content-Type: application/json; charset=utf-8');
+    die(json_encode(['result' => 'error', 'error' => $msg], JSON_THROW_ON_ERROR));
 }
 
 class DisplayEmailsController {
-    public static function matches() {
+    public static function matches(): bool {
         return !isset($_GET['action']) && !empty($_SERVER['QUERY_STRING'] ?? '');
     }
 
-    public static function invoke(ImapClient $imapClient, array $config) {
-        $address = $_SERVER['QUERY_STRING'] ?? '';
-
+    public static function invoke(ImapClient $imapClient, array $config): void {
+        $address = filter_var($_SERVER['QUERY_STRING'] ?? '', FILTER_SANITIZE_STRING);
         $user = User::parseDomain($address, $config['blocked_usernames']);
+
         if ($user->isInvalid($config['domains'])) {
             RedirectToRandomAddressController::invoke($imapClient, $config);
             return;
         }
 
         $emails = $imapClient->get_emails($user);
-
-        DisplayEmailsController::render($emails, $config, $user);
+        self::render($emails, $config, $user);
     }
 
-    public static function render($emails, $config, $user) {
-        // variables that have to be defined here for frontend template: $emails, $config
+    private static function render(array $emails, array $config, User $user): void {
+        // Variablen für das Template definieren
         require "frontend.template.php";
     }
 }
 
 class RedirectToAddressController {
-    public static function matches() {
+    public static function matches(): bool {
         return ($_GET['action'] ?? null) === "redirect"
-            && isset($_POST['username'])
-            && isset($_POST['domain']);
+            && isset($_POST['username'], $_POST['domain']);
     }
 
-    public static function invoke(ImapClient $imapClient, array $config) {
-        $user = User::parseUsernameAndDomain($_POST['username'], $_POST['domain'], $config['blocked_usernames']);
-        RedirectToAddressController::render($user->username . "@" . $user->domain);
+    public static function invoke(ImapClient $imapClient, array $config): void {
+        $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
+        $domain = filter_var($_POST['domain'], FILTER_SANITIZE_STRING);
+        $user = User::parseUsernameAndDomain($username, $domain, $config['blocked_usernames']);
+
+        self::render($user->username . '@' . $user->domain);
     }
 
-    public static function render($address) {
-        header("location: ?$address");
+    private static function render(string $address): void {
+        header("Location: ?$address");
+        exit;
     }
 }
 
 class RedirectToRandomAddressController {
-    public static function matches() {
+    public static function matches(): bool {
         return ($_GET['action'] ?? null) === 'random';
     }
 
-    public static function invoke(ImapClient $imapClient, array $config) {
+    public static function invoke(ImapClient $imapClient, array $config): void {
         $address = User::get_random_address($config['domains']);
         RedirectToAddressController::render($address);
     }
 }
 
 class HasNewMessagesControllerJson {
-    public static function matches() {
+    public static function matches(): bool {
         return ($_GET['action'] ?? null) === "has_new_messages"
-            && isset($_GET['email_ids'])
-            && isset($_GET['address']);
+            && isset($_GET['email_ids'], $_GET['address']);
     }
 
-
-    public static function invoke(ImapClient $imapClient, array $config) {
-        $email_ids = $_GET['email_ids'];
-        $address = $_GET['address'];
+    public static function invoke(ImapClient $imapClient, array $config): void {
+        $email_ids = explode('|', filter_var($_GET['email_ids'], FILTER_SANITIZE_STRING));
+        $address = filter_var($_GET['address'], FILTER_SANITIZE_STRING);
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
         if ($user->isInvalid($config['domains'])) {
-            render_error(400, "invalid email address");
+            render_error(400, "Invalid email address");
         }
 
         $emails = $imapClient->get_emails($user);
-        $knownMailIds = explode('|', $email_ids);
-        $newMailIds = array_map(function ($mail) {
-            return $mail->id;
-        }, $emails);
+        $newMailIds = array_map(fn($mail) => $mail->id, $emails);
+        $onlyNewMailIds = array_diff($newMailIds, $email_ids);
 
-        $onlyNewMailIds = array_diff($newMailIds, $knownMailIds);
-
-        HasNewMessagesControllerJson::render(count($onlyNewMailIds));
+        self::render(count($onlyNewMailIds));
     }
 
-    public static function render($counter) {
-        header('Content-Type: application/json');
-        print json_encode($counter);
+    private static function render(int $counter): void {
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode(['new_messages' => $counter], JSON_THROW_ON_ERROR);
     }
 }
 
 class DownloadEmailController {
-    public static function matches() {
+    public static function matches(): bool {
         return ($_GET['action'] ?? null) === "download_email"
-            && isset($_GET['email_id'])
-            && isset($_GET['address']);
+            && isset($_GET['email_id'], $_GET['address']);
     }
 
-
-    public static function invoke(ImapClient $imapClient, array $config) {
-        $email_id = $_GET['email_id'];
-        $address = $_GET['address'];
+    public static function invoke(ImapClient $imapClient, array $config): void {
+        $email_id = filter_var($_GET['email_id'], FILTER_SANITIZE_NUMBER_INT);
+        $address = filter_var($_GET['address'], FILTER_SANITIZE_STRING);
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
         if ($user->isInvalid($config['domains'])) {
@@ -112,33 +112,31 @@ class DownloadEmailController {
             return;
         }
 
-        $download_email_id = filter_var($email_id, FILTER_SANITIZE_NUMBER_INT);
-        $full_email = $imapClient->load_one_email_fully($download_email_id, $user);
+        $full_email = $imapClient->load_one_email_fully($email_id, $user);
         if ($full_email !== null) {
-            $filename = $user->address . "-" . $download_email_id . ".eml";
-            DownloadEmailController::renderDownloadEmailAsRfc822($full_email, $filename);
+            $filename = $user->address . "-" . $email_id . ".eml";
+            self::renderDownloadEmailAsRfc822($full_email, $filename);
         } else {
-            render_error(404, 'download error: invalid username/mailid combination');
+            render_error(404, 'Download error: invalid username/email_id combination');
         }
     }
 
-    public static function renderDownloadEmailAsRfc822($full_email, $filename) {
+    private static function renderDownloadEmailAsRfc822(string $full_email, string $filename): void {
         header("Content-Type: message/rfc822; charset=utf-8");
         header("Content-Disposition: attachment; filename=\"$filename\"");
-        print $full_email;
+        echo $full_email;
     }
 }
 
 class DeleteEmailController {
-    public static function matches() {
+    public static function matches(): bool {
         return ($_GET['action'] ?? null) === "delete_email"
-            && isset($_GET['email_id'])
-            && isset($_GET['address']);
+            && isset($_GET['email_id'], $_GET['address']);
     }
 
-    public static function invoke(ImapClient $imapClient, array $config) {
-        $email_id = $_GET['email_id'];
-        $address = $_GET['address'];
+    public static function invoke(ImapClient $imapClient, array $config): void {
+        $email_id = filter_var($_GET['email_id'], FILTER_SANITIZE_NUMBER_INT);
+        $address = filter_var($_GET['address'], FILTER_SANITIZE_STRING);
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
         if ($user->isInvalid($config['domains'])) {
@@ -146,11 +144,10 @@ class DeleteEmailController {
             return;
         }
 
-        $delete_email_id = filter_var($email_id, FILTER_SANITIZE_NUMBER_INT);
-        if ($imapClient->delete_email($delete_email_id, $user)) {
+        if ($imapClient->delete_email($email_id, $user)) {
             RedirectToAddressController::render($address);
         } else {
-            render_error(404, 'delete error: invalid username/mailid combination');
+            render_error(404, 'Delete error: invalid username/email_id combination');
         }
     }
 }
