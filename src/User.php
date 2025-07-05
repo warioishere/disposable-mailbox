@@ -8,11 +8,16 @@ class User {
     public string $domain;
 
     public static function get_random_address(array $domains): string {
-        $wordLength = rand(3, 8);
+        try {
+            $wordLength = random_int(3, 8);
+            $nr = random_int(51, 91);
+        } catch (\Exception $e) {
+            $wordLength = mt_rand(3, 8);
+            $nr = mt_rand(51, 91);
+        }
         $container = new PronounceableWord_DependencyInjectionContainer();
         $generator = $container->getGenerator();
         $word = $generator->generateWordOfGivenLength($wordLength);
-        $nr = rand(51, 91);
         $name = $word . $nr;
 
         $domain = $domains[array_rand($domains)];

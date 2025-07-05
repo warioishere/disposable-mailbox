@@ -19,7 +19,7 @@ class DisplayEmailsController {
     }
 
     public static function invoke(ImapClient $imapClient, array $config): void {
-        $address = filter_var($_SERVER['QUERY_STRING'] ?? '', FILTER_SANITIZE_STRING);
+        $address = trim(filter_var($_SERVER['QUERY_STRING'] ?? '', FILTER_UNSAFE_RAW));
         $user = User::parseDomain($address, $config['blocked_usernames']);
 
         if ($user->isInvalid($config['domains'])) {
@@ -44,8 +44,8 @@ class RedirectToAddressController {
     }
 
     public static function invoke(ImapClient $imapClient, array $config): void {
-        $username = filter_var($_POST['username'], FILTER_SANITIZE_STRING);
-        $domain = filter_var($_POST['domain'], FILTER_SANITIZE_STRING);
+        $username = trim(filter_var($_POST['username'], FILTER_UNSAFE_RAW));
+        $domain = trim(filter_var($_POST['domain'], FILTER_UNSAFE_RAW));
         $user = User::parseUsernameAndDomain($username, $domain, $config['blocked_usernames']);
 
         self::render($user->username . '@' . $user->domain);
@@ -75,8 +75,8 @@ class HasNewMessagesControllerJson {
     }
 
     public static function invoke(ImapClient $imapClient, array $config): void {
-        $email_ids = explode('|', filter_var($_GET['email_ids'], FILTER_SANITIZE_STRING));
-        $address = filter_var($_GET['address'], FILTER_SANITIZE_STRING);
+        $email_ids = explode('|', trim(filter_var($_GET['email_ids'], FILTER_UNSAFE_RAW)));
+        $address = trim(filter_var($_GET['address'], FILTER_UNSAFE_RAW));
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
         if ($user->isInvalid($config['domains'])) {
@@ -104,7 +104,7 @@ class DownloadEmailController {
 
     public static function invoke(ImapClient $imapClient, array $config): void {
         $email_id = filter_var($_GET['email_id'], FILTER_SANITIZE_NUMBER_INT);
-        $address = filter_var($_GET['address'], FILTER_SANITIZE_STRING);
+        $address = trim(filter_var($_GET['address'], FILTER_UNSAFE_RAW));
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
         if ($user->isInvalid($config['domains'])) {
@@ -136,7 +136,7 @@ class DeleteEmailController {
 
     public static function invoke(ImapClient $imapClient, array $config): void {
         $email_id = filter_var($_GET['email_id'], FILTER_SANITIZE_NUMBER_INT);
-        $address = filter_var($_GET['address'], FILTER_SANITIZE_STRING);
+        $address = trim(filter_var($_GET['address'], FILTER_UNSAFE_RAW));
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
         if ($user->isInvalid($config['domains'])) {

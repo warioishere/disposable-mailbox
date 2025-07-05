@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * searches for a config-file in the current and parent directories until found.
  * @return path to found config file, or FALSE otherwise.
