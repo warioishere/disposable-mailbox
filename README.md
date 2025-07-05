@@ -10,6 +10,7 @@ A **self-hosted** disposable mailbox  service (aka trash mail)  :cloud: :envelop
 * Display emails as text or html with sanitization  filter. 
 * Display emails based on one [catch-all imap mailbox](https://de.wikipedia.org/wiki/Catch-All).
 * Only requires PHP  >=8.3 and [imap extension](http://php.net/manual/book.imap.php)
+* Optional Dark Mode interface
 
 ## Usage
 

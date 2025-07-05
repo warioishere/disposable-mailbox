@@ -184,6 +184,7 @@ function printMessageBody($email, $purifier) {
     <header class="header-section">
         <h1>Deine Einweg-Mailbox</h1>
         <p>Erstelle schnell und einfach eine temporäre E-Mail-Adresse!</p>
+        <button id="theme-toggle" class="btn btn-secondary">Dark Mode</button>
     </header>
 
     <!-- Adresse anzeigen und Kopieren -->
@@ -293,6 +294,20 @@ function printMessageBody($email, $purifier) {
 <script src="assets/clipboard.js/clipboard.min.js"></script>
 <script>
     clipboard = new ClipboardJS('[data-clipboard-target]');
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var body = document.body;
+        var toggle = document.getElementById('theme-toggle');
+        var saved = localStorage.getItem('theme');
+        if (saved === 'dark') {
+            body.classList.add('dark-mode');
+        }
+        toggle.addEventListener('click', function () {
+            body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
+        });
+    });
 </script>
 
 </body>
