@@ -91,7 +91,7 @@ footer {
     display: block;
 }
 
-#new-content-avalable {
+#new-content-available {
     display: none;
     text-align: center;
 }
@@ -111,4 +111,30 @@ footer {
 }
 #address-box-edit {
     margin: 1rem;
+}
+.dark-mode body {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+.dark-mode .container,
+.dark-mode .header-section,
+.dark-mode .email-content,
+.dark-mode .details,
+.dark-mode .privacy {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.dark-mode .email-content:hover {
+    background-color: #2a2a2a;
+}
+
+.dark-mode a {
+    color: #4ea8ff;
+}
+
+.dark-mode .alert-fixed {
+    background-color: #333;
+    color: #fff;
 }

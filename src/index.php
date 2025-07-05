@@ -1,8 +1,8 @@
 <?php
 
 // check for common errors
-if (version_compare(phpversion(), '7.2', '<')) {
-    die("ERROR! The php version isn't high enough, you need at least 7.2 to run this application! But you have: " . phpversion());
+if (version_compare(phpversion(), '8.3', '<')) {
+    die("ERROR! The php version isn't high enough, you need at least 8.3 to run this application! But you have: " . phpversion());
 }
 extension_loaded("imap") || die('ERROR: IMAP extension not loaded. Please see the installation instructions in the README.md');
 
