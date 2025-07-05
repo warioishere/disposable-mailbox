@@ -184,7 +184,11 @@ function printMessageBody($email, $purifier) {
     <header class="header-section">
         <h1>Deine Einweg-Mailbox</h1>
         <p>Erstelle schnell und einfach eine temporäre E-Mail-Adresse!</p>
-        <button id="theme-toggle" class="btn btn-secondary">Dark Mode</button>
+        <div class="theme-switch justify-content-center">
+            <input type="checkbox" id="theme-toggle" />
+            <label for="theme-toggle" class="theme-switch-label"></label>
+            <span class="ml-2">Dark Mode</span>
+        </div>
     </header>
 
     <!-- Adresse anzeigen und Kopieren -->
@@ -302,8 +306,9 @@ function printMessageBody($email, $purifier) {
         var saved = localStorage.getItem('theme');
         if (saved === 'dark') {
             body.classList.add('dark-mode');
+            toggle.checked = true;
         }
-        toggle.addEventListener('click', function () {
+        toggle.addEventListener('change', function () {
             body.classList.toggle('dark-mode');
             localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
         });

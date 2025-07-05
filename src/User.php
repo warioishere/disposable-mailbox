@@ -8,15 +8,26 @@ class User {
     public string $domain;
 
     public static function get_random_address(array $domains): string {
-        $wordLength = random_int(3, 8);
+        $wordLength = self::safeRandomInt(3, 8);
         $container = new PronounceableWord_DependencyInjectionContainer();
         $generator = $container->getGenerator();
         $word = $generator->generateWordOfGivenLength($wordLength);
-        $nr = random_int(51, 91);
+        $nr = self::safeRandomInt(51, 91);
         $name = $word . $nr;
 
         $domain = $domains[array_rand($domains)];
         return "$name@$domain";
+    }
+
+    /**
+     * Helper to generate secure random integers with a fallback if unavailable
+     */
+    private static function safeRandomInt(int $min, int $max): int {
+        try {
+            return random_int($min, $max);
+        } catch (\Exception | \Error $e) {
+            return mt_rand($min, $max);
+        }
     }
 
     public function isInvalid(array $config_domains): bool {
