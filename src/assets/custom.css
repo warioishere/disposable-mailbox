@@ -138,6 +138,10 @@ footer {
     color: #4ea8ff;
 }
 
+.dark-mode footer, .dark-mode footer a {
+    color: #000;
+}
+
 .dark-mode .alert-fixed {
     background-color: #333;
     color: #fff;

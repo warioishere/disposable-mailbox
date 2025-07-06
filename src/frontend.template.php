@@ -98,7 +98,7 @@ function printMessageBody($email, $purifier) {
             padding: 1rem;
         }
         .email-list-item {
-            background: #ffffff;
+            background: #f0f8ff;
             border-radius: 5px;
             margin-bottom: 10px;
             padding: 15px;
