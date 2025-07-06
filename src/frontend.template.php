@@ -309,6 +309,21 @@ function printMessageBody($email, $purifier) {
     clipboard = new ClipboardJS('[data-clipboard-target]');
 </script>
 <script>
+    const form = document.querySelector('form[action="?action=redirect"]');
+    if (form) {
+        const username = form.querySelector('input[name="username"]');
+        const domain = form.querySelector('select[name="domain"]');
+        [username, domain].forEach(function (el) {
+            el.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    form.submit();
+                }
+            });
+        });
+    }
+</script>
+<script>
     var htmlEl = document.documentElement;
     var toggle = document.getElementById('theme-toggle');
     var langToggle = document.getElementById('language-toggle');
