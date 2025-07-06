@@ -284,12 +284,12 @@ function printMessageBody($email, $purifier) {
                 <li>Nutzdaten: E-Mails inklusive Inhalt und Anhang</li>
                 <li>Verkehrsdaten: Absender, Empfänger, Nachrichten-ID, Größe der versandten oder empfangenen E-Mail</li>
             </ul>
-            <h5>Rechtsgrundlage für die Datenverarbeitung</h5>
-            <p>Die Verarbeitung der personenbezogenen Daten dient der Bereitstellung und Funktionalität des Einweg-E-Mail-Dienstes gemäß Art. 6 Abs. 1 lit. b DSGVO.</p>
+            <h5>Grundlage für die Datenverarbeitung</h5>
+            <p>Die Verarbeitung der Daten dient der Bereitstellung und Funktionalität des Einweg-E-Mail-Dienstes.</p>
             <h5>Dauer der Speicherung</h5>
             <p>Nutzungsdaten werden nach 1 Tag gelöscht. Verkehrsdaten werden nach Ablauf der gesetzlichen Aufbewahrungsfrist gelöscht.</p>
-            <h5>Widerspruchs- und Beseitigungsmöglichkeit</h5>
-            <p>Der Nutzer kann die E-Mails jederzeit löschen. Ein Widerspruch ist nicht möglich, da der Dienst sonst nicht erbracht werden kann.</p>
+            <h5>Beseitigungsmöglichkeit der Mails</h5>
+            <p>Der Nutzer kann die E-Mails jederzeit über ein integriertes Forumular löschen. Die Mails werden dann direkt vom Mailserver gelöscht. </p>
         </div>
 
         <p class="text-center mt-4">
