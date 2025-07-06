@@ -2,3 +2,4 @@
 *.patch
 .php_cs.cache
 /config.php
+error.log

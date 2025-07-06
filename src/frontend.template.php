@@ -70,9 +70,7 @@ function printMessageBody($email, $purifier) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-T8BvL2pDN59Kgod7e7p4kesUb+oyQPt3tFt8S+sIa0jUenn1byQ97GBKHUN8ZPk0"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-          integrity="sha384-PeCD/lV7xE25gKYPf8+k88QGX43BoAVlEVaWbRzKBTS+WGt2FOpM2ofQ11rlYiei"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/fontawesome/5.15.1/all.min.css">
     <link rel="stylesheet" href="assets/spinner.css">
     <link rel="stylesheet" href="assets/custom.css">
     <style>
@@ -100,7 +98,7 @@ function printMessageBody($email, $purifier) {
             padding: 1rem;
         }
         .email-list-item {
-            background: #ffffff;
+            background: #f0f8ff;
             border-radius: 5px;
             margin-bottom: 10px;
             padding: 15px;
@@ -138,7 +136,7 @@ function printMessageBody($email, $purifier) {
         }
         .details, .privacy {
             background-color: #f8f9fa;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 20px;
             margin-top: 20px;
         }
@@ -159,11 +157,16 @@ function printMessageBody($email, $purifier) {
             r.open("GET", "?action=has_new_messages&address=<?php echo $user->address; ?>&email_ids=<?php echo $mailIdsJoinedString; ?>", true);
             r.onreadystatechange = function () {
                 if (r.readyState != 4 || r.status != 200) return;
-                if (r.responseText > 0) {
-                    document.getElementById("new-content-available").style.display = 'block';
-                    if (mailCount === 0) {
-                        location.reload();
+                try {
+                    var data = JSON.parse(r.responseText);
+                    if (data.new_messages > 0) {
+                        document.getElementById("new-content-available").style.display = 'block';
+                        if (mailCount === 0) {
+                            location.reload();
+                        }
                     }
+                } catch (e) {
+                    console.error('Failed to parse new mail counter:', e);
                 }
             };
             r.send();
@@ -184,7 +187,7 @@ function printMessageBody($email, $purifier) {
     <header class="header-section">
         <h1>Deine Einweg-Mailbox</h1>
         <p>Erstelle schnell und einfach eine temporäre E-Mail-Adresse!</p>
-        <button id="theme-toggle" class="btn btn-secondary">Dark Mode</button>
+        <button id="theme-toggle" type="button" class="btn btn-secondary">Dark Mode</button>
     </header>
 
     <!-- Adresse anzeigen und Kopieren -->
@@ -281,7 +284,7 @@ function printMessageBody($email, $purifier) {
         <p class="text-center mt-4">
             <small>
                 yourdevice.ch |
-                Quellcode: <a href="https://github.com/abyssox/disposable-mailbox" target="_blank"><strong>abyssox/disposable-mailbox</strong></a>
+                Quellcode: <a href="https://github.com/warioishere/disposable-mailbox.git" target="_blank"><strong>warioishere/disposable-mailbox</strong></a>
             </small>
         </p>
     </footer>
@@ -289,24 +292,27 @@ function printMessageBody($email, $purifier) {
 
 <!-- jQuery und Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="assets/popper.js/1.16.1/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="assets/clipboard.js/clipboard.min.js"></script>
 <script>
     clipboard = new ClipboardJS('[data-clipboard-target]');
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var body = document.body;
-        var toggle = document.getElementById('theme-toggle');
-        var saved = localStorage.getItem('theme');
-        if (saved === 'dark') {
-            body.classList.add('dark-mode');
-        }
-        toggle.addEventListener('click', function () {
-            body.classList.toggle('dark-mode');
-            localStorage.setItem('theme', body.classList.contains('dark-mode') ? 'dark' : 'light');
-        });
+    var htmlEl = document.documentElement;
+    var toggle = document.getElementById('theme-toggle');
+    var saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+        htmlEl.classList.add('dark-mode');
+        toggle.textContent = 'Light Mode';
+    } else {
+        toggle.textContent = 'Dark Mode';
+    }
+    toggle.addEventListener('click', function () {
+        htmlEl.classList.toggle('dark-mode');
+        var isDark = htmlEl.classList.contains('dark-mode');
+        toggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 </script>
 
