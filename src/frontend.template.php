@@ -68,9 +68,7 @@ function printMessageBody($email, $purifier) {
     <title><?php echo $emails ? "(" . count($emails) . ") " : ""; echo $user->address; ?></title>
 
     <!-- Bootstrap CSS und Font Awesome -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-T8BvL2pDN59Kgod7e7p4kesUb+oyQPt3tFt8S+sIa0jUenn1byQ97GBKHUN8ZPk0"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/bootstrap/4.3.1/bootstrap.min.css">
     <link rel="stylesheet" href="assets/fontawesome/5.15.1/all.min.css">
     <link rel="stylesheet" href="assets/spinner.css">
     <link rel="stylesheet" href="assets/custom.css">
@@ -302,9 +300,9 @@ function printMessageBody($email, $purifier) {
 </div>
 
 <!-- jQuery und Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+<script src="assets/jquery/jquery-3.5.1.slim.min.js"></script>
 <script src="assets/popper.js/1.16.1/umd/popper.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<script src="assets/bootstrap/4.3.1/bootstrap.min.js"></script>
 <script src="assets/clipboard.js/clipboard.min.js"></script>
 <script>
     clipboard = new ClipboardJS('[data-clipboard-target]');

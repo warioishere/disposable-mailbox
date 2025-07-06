@@ -39,7 +39,8 @@ Disposable-mailbox can be installed by copying the src directory to a webserver.
 4. Update your php dependcies with `composer update` if you use a higher php Version
 5. copy the files in the `src` directory to your web server (not the whole repo!).
 6. rename `config.sample.php` to `config.php` and apply the imap settings. Move `config.php` to a safe location in a *parent directory* outside the `public_html`, so it is not reachable through the browser. The Application will automatically detect your config.php if its in the parent directory for example.
-7. open it in your browser, check your php error log for messages. 
+7. open it in your browser, check your php error log for messages. By default the
+   application writes errors to `sys_get_temp_dir()/disposable-mailbox.log`.
 
 
 ### Build it yourself
