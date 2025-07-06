@@ -51,7 +51,7 @@ class RedirectToAddressController {
         self::render($user->username . '@' . $user->domain);
     }
 
-    private static function render(string $address): void {
+    public static function render(string $address): void {
         header("Location: ?$address");
         exit;
     }
