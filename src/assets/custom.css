@@ -138,3 +138,15 @@ footer {
     background-color: #333;
     color: #fff;
 }
+/* Dark mode toggle button */
+#theme-toggle {
+    margin-top: 0.5rem;
+}
+.dark-mode #theme-toggle {
+    background-color: #555;
+    border-color: #777;
+    color: #fff;
+}
+.dark-mode #theme-toggle:hover {
+    background-color: #666;
+}
