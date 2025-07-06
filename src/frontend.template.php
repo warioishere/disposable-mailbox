@@ -70,9 +70,7 @@ function printMessageBody($email, $purifier) {
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-T8BvL2pDN59Kgod7e7p4kesUb+oyQPt3tFt8S+sIa0jUenn1byQ97GBKHUN8ZPk0"
           crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-          integrity="sha384-PeCD/lV7xE25gKYPf8+k88QGX43BoAVlEVaWbRzKBTS+WGt2FOpM2ofQ11rlYiei"
-          crossorigin="anonymous">
+    <link rel="stylesheet" href="assets/fontawesome/5.15.1/all.min.css">
     <link rel="stylesheet" href="assets/spinner.css">
     <link rel="stylesheet" href="assets/custom.css">
     <style>
@@ -289,7 +287,7 @@ function printMessageBody($email, $purifier) {
 
 <!-- jQuery und Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="assets/popper.js/1.16.1/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <script src="assets/clipboard.js/clipboard.min.js"></script>
 <script>
@@ -297,18 +295,18 @@ function printMessageBody($email, $purifier) {
 </script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        var body = document.body;
+        var htmlEl = document.documentElement;
         var toggle = document.getElementById('theme-toggle');
         var saved = localStorage.getItem('theme');
         if (saved === 'dark') {
-            body.classList.add('dark-mode');
+            htmlEl.classList.add('dark-mode');
             toggle.textContent = 'Light Mode';
         } else {
             toggle.textContent = 'Dark Mode';
         }
         toggle.addEventListener('click', function () {
-            body.classList.toggle('dark-mode');
-            var isDark = body.classList.contains('dark-mode');
+            htmlEl.classList.toggle('dark-mode');
+            var isDark = htmlEl.classList.contains('dark-mode');
             toggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         });
