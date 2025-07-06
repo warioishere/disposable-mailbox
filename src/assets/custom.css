@@ -11,6 +11,10 @@ html > body {
     color: black;
 }
 
+.dark-mode #my-address {
+    color: #e0e0e0;
+}
+
 .my-address-block {
     background-color: #F8F9FA;
     padding: 0.5rem;

@@ -279,7 +279,7 @@ function printMessageBody($email, $purifier) {
         <p class="text-center mt-4">
             <small>
                 yourdevice.ch |
-                Quellcode: <a href="https://github.com/abyssox/disposable-mailbox" target="_blank"><strong>abyssox/disposable-mailbox</strong></a>
+                Quellcode: <a href="https://github.com/warioishere/disposable-mailbox.git" target="_blank"><strong>warioishere/disposable-mailbox</strong></a>
             </small>
         </p>
     </footer>
