@@ -157,11 +157,16 @@ function printMessageBody($email, $purifier) {
             r.open("GET", "?action=has_new_messages&address=<?php echo $user->address; ?>&email_ids=<?php echo $mailIdsJoinedString; ?>", true);
             r.onreadystatechange = function () {
                 if (r.readyState != 4 || r.status != 200) return;
-                if (r.responseText > 0) {
-                    document.getElementById("new-content-available").style.display = 'block';
-                    if (mailCount === 0) {
-                        location.reload();
+                try {
+                    var data = JSON.parse(r.responseText);
+                    if (data.new_messages > 0) {
+                        document.getElementById("new-content-available").style.display = 'block';
+                        if (mailCount === 0) {
+                            location.reload();
+                        }
                     }
+                } catch (e) {
+                    console.error('Failed to parse new mail counter:', e);
                 }
             };
             r.send();
