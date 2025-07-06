@@ -4,6 +4,15 @@ ini_set('log_errors', '1');
 ini_set('error_log', __DIR__ . '/error.log');
 ini_set('display_errors', '0');
 error_reporting(E_ALL);
+set_error_handler(function($severity, $message, $file, $line) {
+    error_log("$message in $file on line $line");
+});
+register_shutdown_function(function() {
+    $error = error_get_last();
+    if ($error !== null && ($error['type'] & (E_ERROR | E_CORE_ERROR | E_COMPILE_ERROR | E_PARSE))) {
+        error_log("Fatal error: {$error['message']} in {$error['file']} on line {$error['line']}");
+    }
+});
 
 // check for common errors
 if (version_compare(phpversion(), '8.3', '<')) {
