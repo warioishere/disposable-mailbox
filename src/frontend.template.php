@@ -182,7 +182,7 @@ function printMessageBody($email, $purifier) {
     <header class="header-section">
         <h1>Deine Einweg-Mailbox</h1>
         <p>Erstelle schnell und einfach eine temporäre E-Mail-Adresse!</p>
-        <button id="theme-toggle" class="btn btn-secondary">Dark Mode</button>
+        <button id="theme-toggle" type="button" class="btn btn-secondary">Dark Mode</button>
     </header>
 
     <!-- Adresse anzeigen und Kopieren -->
@@ -294,22 +294,20 @@ function printMessageBody($email, $purifier) {
     clipboard = new ClipboardJS('[data-clipboard-target]');
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        var htmlEl = document.documentElement;
-        var toggle = document.getElementById('theme-toggle');
-        var saved = localStorage.getItem('theme');
-        if (saved === 'dark') {
-            htmlEl.classList.add('dark-mode');
-            toggle.textContent = 'Light Mode';
-        } else {
-            toggle.textContent = 'Dark Mode';
-        }
-        toggle.addEventListener('click', function () {
-            htmlEl.classList.toggle('dark-mode');
-            var isDark = htmlEl.classList.contains('dark-mode');
-            toggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
+    var htmlEl = document.documentElement;
+    var toggle = document.getElementById('theme-toggle');
+    var saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+        htmlEl.classList.add('dark-mode');
+        toggle.textContent = 'Light Mode';
+    } else {
+        toggle.textContent = 'Dark Mode';
+    }
+    toggle.addEventListener('click', function () {
+        htmlEl.classList.toggle('dark-mode');
+        var isDark = htmlEl.classList.contains('dark-mode');
+        toggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 </script>
 
