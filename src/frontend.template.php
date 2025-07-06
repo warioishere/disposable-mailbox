@@ -13,6 +13,7 @@ require_once './autolink.php';
 $purifier_config = HTMLPurifier_Config::createDefault();
 $purifier_config->set('HTML.Nofollow', true);
 $purifier_config->set('HTML.ForbiddenElements', array("img"));
+$purifier_config->set('Cache.SerializerPath', sys_get_temp_dir());
 $purifier = new HTMLPurifier($purifier_config);
 
 \Moment\Moment::setLocale($config['locale']);

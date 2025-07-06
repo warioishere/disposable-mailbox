@@ -178,3 +178,7 @@ footer {
     color: #4ea8ff;
     border-color: #4ea8ff;
 }
+.dark-mode .email-actions .btn-outline-danger {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}
