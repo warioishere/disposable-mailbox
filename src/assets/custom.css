@@ -168,3 +168,20 @@ footer {
     color: #000;
     border-color: #ffc107;
 }
+
+/* Action buttons below each email */
+.email-actions {
+    margin: 0.75rem 0 0.5rem;
+}
+.email-actions .btn {
+    margin: 0 0.25rem;
+}
+
+.dark-mode .email-actions .btn-outline-primary {
+    color: #4ea8ff;
+    border-color: #4ea8ff;
+}
+.dark-mode .email-actions .btn-outline-danger {
+    color: #ff6b6b;
+    border-color: #ff6b6b;
+}

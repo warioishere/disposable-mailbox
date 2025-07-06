@@ -13,6 +13,7 @@ require_once './autolink.php';
 $purifier_config = HTMLPurifier_Config::createDefault();
 $purifier_config->set('HTML.Nofollow', true);
 $purifier_config->set('HTML.ForbiddenElements', array("img"));
+$purifier_config->set('Cache.SerializerPath', sys_get_temp_dir());
 $purifier = new HTMLPurifier($purifier_config);
 
 \Moment\Moment::setLocale($config['locale']);
@@ -60,7 +61,7 @@ function printMessageBody($email, $purifier) {
 ?>
 
 <!doctype html>
-<html lang="de">
+<html class="dark-mode" lang="de">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -187,7 +188,7 @@ function printMessageBody($email, $purifier) {
     <header class="header-section">
         <h1>Deine Einweg-Mailbox</h1>
         <p>Erstelle schnell und einfach eine temporäre E-Mail-Adresse!</p>
-        <button id="theme-toggle" type="button" class="btn btn-secondary">Dark Mode</button>
+        <button id="theme-toggle" type="button" class="btn btn-secondary">Light Mode</button>
     </header>
 
     <!-- Adresse anzeigen und Kopieren -->
@@ -239,6 +240,16 @@ function printMessageBody($email, $purifier) {
                         <div class="mt-3">
                             <?php printMessageBody($email, $purifier); ?>
                         </div>
+                        <div class="email-actions text-right">
+                            <a href="?action=download_email&email_id=<?php echo $email->id; ?>&address=<?php echo $user->address; ?>"
+                               class="btn btn-outline-primary btn-sm" title="Download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <a href="?action=delete_email&email_id=<?php echo $email->id; ?>&address=<?php echo $user->address; ?>"
+                               class="btn btn-outline-danger btn-sm" title="Delete">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </div>
                     </div>
                 <?php endforeach;
             } else { ?>
@@ -273,12 +284,12 @@ function printMessageBody($email, $purifier) {
                 <li>Nutzdaten: E-Mails inklusive Inhalt und Anhang</li>
                 <li>Verkehrsdaten: Absender, Empfänger, Nachrichten-ID, Größe der versandten oder empfangenen E-Mail</li>
             </ul>
-            <h5>Rechtsgrundlage für die Datenverarbeitung</h5>
-            <p>Die Verarbeitung der personenbezogenen Daten dient der Bereitstellung und Funktionalität des Einweg-E-Mail-Dienstes gemäß Art. 6 Abs. 1 lit. b DSGVO.</p>
+            <h5>Grundlage für die Datenverarbeitung</h5>
+            <p>Die Verarbeitung der Daten dient der Bereitstellung und Funktionalität des Einweg-E-Mail-Dienstes.</p>
             <h5>Dauer der Speicherung</h5>
             <p>Nutzungsdaten werden nach 1 Tag gelöscht. Verkehrsdaten werden nach Ablauf der gesetzlichen Aufbewahrungsfrist gelöscht.</p>
-            <h5>Widerspruchs- und Beseitigungsmöglichkeit</h5>
-            <p>Der Nutzer kann die E-Mails jederzeit löschen. Ein Widerspruch ist nicht möglich, da der Dienst sonst nicht erbracht werden kann.</p>
+            <h5>Beseitigungsmöglichkeit der Mails</h5>
+            <p>Der Nutzer kann die E-Mails jederzeit über ein integriertes Forumular löschen. Die Mails werden dann direkt vom Mailserver gelöscht. </p>
         </div>
 
         <p class="text-center mt-4">
@@ -302,11 +313,12 @@ function printMessageBody($email, $purifier) {
     var htmlEl = document.documentElement;
     var toggle = document.getElementById('theme-toggle');
     var saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
+    if (saved === 'light') {
+        htmlEl.classList.remove('dark-mode');
+        toggle.textContent = 'Dark Mode';
+    } else {
         htmlEl.classList.add('dark-mode');
         toggle.textContent = 'Light Mode';
-    } else {
-        toggle.textContent = 'Dark Mode';
     }
     toggle.addEventListener('click', function () {
         htmlEl.classList.toggle('dark-mode');

@@ -103,7 +103,10 @@ class DownloadEmailController {
     }
 
     public static function invoke(ImapClient $imapClient, array $config): void {
-        $email_id = filter_var($_GET['email_id'], FILTER_SANITIZE_NUMBER_INT);
+        $email_id = filter_var($_GET['email_id'], FILTER_VALIDATE_INT);
+        if ($email_id === false) {
+            render_error(400, 'Invalid email id');
+        }
         $address = trim(filter_var($_GET['address'], FILTER_UNSAFE_RAW));
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
@@ -135,7 +138,10 @@ class DeleteEmailController {
     }
 
     public static function invoke(ImapClient $imapClient, array $config): void {
-        $email_id = filter_var($_GET['email_id'], FILTER_SANITIZE_NUMBER_INT);
+        $email_id = filter_var($_GET['email_id'], FILTER_VALIDATE_INT);
+        if ($email_id === false) {
+            render_error(400, 'Invalid email id');
+        }
         $address = trim(filter_var($_GET['address'], FILTER_UNSAFE_RAW));
 
         $user = User::parseDomain($address, $config['blocked_usernames']);
