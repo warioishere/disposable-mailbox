@@ -170,8 +170,11 @@ footer {
 }
 
 /* Action buttons below each email */
+.email-actions {
+    margin: 0.75rem 0 0.5rem;
+}
 .email-actions .btn {
-    margin-left: 0.25rem;
+    margin: 0 0.25rem;
 }
 
 .dark-mode .email-actions .btn-outline-primary {
