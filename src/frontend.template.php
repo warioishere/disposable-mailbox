@@ -61,7 +61,7 @@ function printMessageBody($email, $purifier) {
 ?>
 
 <!doctype html>
-<html lang="de">
+<html class="dark-mode" lang="de">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -188,7 +188,7 @@ function printMessageBody($email, $purifier) {
     <header class="header-section">
         <h1>Deine Einweg-Mailbox</h1>
         <p>Erstelle schnell und einfach eine temporäre E-Mail-Adresse!</p>
-        <button id="theme-toggle" type="button" class="btn btn-secondary">Dark Mode</button>
+        <button id="theme-toggle" type="button" class="btn btn-secondary">Light Mode</button>
     </header>
 
     <!-- Adresse anzeigen und Kopieren -->
@@ -313,11 +313,12 @@ function printMessageBody($email, $purifier) {
     var htmlEl = document.documentElement;
     var toggle = document.getElementById('theme-toggle');
     var saved = localStorage.getItem('theme');
-    if (saved === 'dark') {
+    if (saved === 'light') {
+        htmlEl.classList.remove('dark-mode');
+        toggle.textContent = 'Dark Mode';
+    } else {
         htmlEl.classList.add('dark-mode');
         toggle.textContent = 'Light Mode';
-    } else {
-        toggle.textContent = 'Dark Mode';
     }
     toggle.addEventListener('click', function () {
         htmlEl.classList.toggle('dark-mode');
