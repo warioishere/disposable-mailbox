@@ -1,7 +1,7 @@
 <?php
 // Basic error logging so that internal server errors are easier to debug
 ini_set('log_errors', '1');
-ini_set('error_log', __DIR__ . '/error.log');
+ini_set('error_log', sys_get_temp_dir() . '/disposable-mailbox.log');
 ini_set('display_errors', '0');
 error_reporting(E_ALL);
 set_error_handler(function($severity, $message, $file, $line) {
