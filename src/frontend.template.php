@@ -176,17 +176,18 @@ function printMessageBody($email, $purifier) {
 
 <!-- Benachrichtigung für neue E-Mails -->
 <div id="new-content-available" class="alert alert-info alert-fixed" role="alert" style="display: none;">
-    <strong>Neue E-Mail</strong> empfangen.
-    <button type="button" class="btn btn-outline-secondary" onclick="location.reload()">
-        <i class="fas fa-sync"></i> Neu laden!
+    <strong id="t-new-email">Neue E-Mail</strong> <span id="t-received">empfangen.</span>
+    <button id="reload-btn" type="button" class="btn btn-outline-secondary" onclick="location.reload()">
+        <i class="fas fa-sync"></i> <span id="t-reload">Neu laden!</span>
     </button>
 </div>
 
 <div class="container">
     <header class="header-section">
-        <h1>Deine Einweg-Mailbox</h1>
-        <p>Erstelle schnell und einfach eine temporäre E-Mail-Adresse!</p>
+        <h1 id="header-title">Deine Einweg-Mailbox</h1>
+        <p id="header-subtitle">Erstelle schnell und einfach eine temporäre E-Mail-Adresse!</p>
         <button id="theme-toggle" type="button" class="btn btn-secondary">Light Mode</button>
+        <button id="language-toggle" type="button" class="btn btn-secondary mt-2">English</button>
     </header>
 
     <!-- Adresse anzeigen und Kopieren -->
@@ -194,7 +195,7 @@ function printMessageBody($email, $purifier) {
         <div class="col-md-6 text-center">
             <h4 id="my-address"><?php echo $user->address; ?></h4>
             <button class="btn btn-primary copy-button" data-clipboard-target="#my-address">
-                <i class="fas fa-copy"></i> Kopieren
+                <i class="fas fa-copy"></i> <span id="t-copy">Kopieren</span>
             </button>
         </div>
     </div>
@@ -202,9 +203,9 @@ function printMessageBody($email, $purifier) {
     <!-- Formular zur Adressauswahl und zufälligen Adresse -->
     <div class="form-container text-center">
         <a href="?action=random" class="btn btn-dark mb-3">
-            <i class="fa fa-random"></i> Zufällige E-Mail Adresse
+            <i class="fa fa-random"></i> <span id="t-random">Zufällige E-Mail Adresse</span>
         </a>
-        <p>Oder erstelle deine eigene Adresse und bestätige mit Enter:</p>
+        <p id="t-custom">Oder erstelle deine eigene Adresse und bestätige mit Enter:</p>
         <form action="?action=redirect" method="post">
             <div class="form-row justify-content-center">
                 <div class="col-auto">
@@ -220,7 +221,7 @@ function printMessageBody($email, $purifier) {
                     </select>
                 </div>
                 <div class="col-auto">
-                    <button type="submit" class="btn btn-primary">Mailbox öffnen</button>
+                    <button type="submit" class="btn btn-primary" id="t-open">Mailbox öffnen</button>
                 </div>
             </div>
         </form>
@@ -232,27 +233,27 @@ function printMessageBody($email, $purifier) {
             <?php if (!empty($emails)) {
                 foreach ($emails as $email): ?>
                     <div class="email-content">
-                        <h6><strong>Von:</strong> <?php echo htmlspecialchars($email->fromName); ?> <span class="text-muted"><?php echo htmlspecialchars($email->fromAddress); ?></span></h6>
-                        <p><strong>Betreff:</strong> <?php echo htmlspecialchars($email->subject); ?></p>
-                        <small><strong>Datum:</strong> <?php echo niceDate($email->date); ?></small>
+                        <h6><strong class="t-from">Von:</strong> <?php echo htmlspecialchars($email->fromName); ?> <span class="text-muted"><?php echo htmlspecialchars($email->fromAddress); ?></span></h6>
+                        <p><strong class="t-subject">Betreff:</strong> <?php echo htmlspecialchars($email->subject); ?></p>
+                        <small><strong class="t-date">Datum:</strong> <?php echo niceDate($email->date); ?></small>
                         <div class="mt-3">
                             <?php printMessageBody($email, $purifier); ?>
                         </div>
                         <div class="email-actions text-right">
                             <a href="?action=download_email&email_id=<?php echo $email->id; ?>&address=<?php echo $user->address; ?>"
                                class="btn btn-outline-primary btn-sm" title="Download">
-                                <i class="fas fa-download"></i> Download
+                                <i class="fas fa-download"></i> <span class="t-download">Herunterladen</span>
                             </a>
                             <a href="?action=delete_email&email_id=<?php echo $email->id; ?>&address=<?php echo $user->address; ?>"
                                class="btn btn-outline-danger btn-sm" title="Delete">
-                                <i class="fas fa-trash"></i> Delete
+                                <i class="fas fa-trash"></i> <span class="t-delete">Löschen</span>
                             </a>
                         </div>
                     </div>
                 <?php endforeach;
             } else { ?>
                 <div id="empty-mailbox" class="text-center p-4">
-                    <p>Die Mailbox ist leer. Es wird automatisch auf neue E-Mails geprüft.</p>
+                    <p id="t-empty">Die Mailbox ist leer. Es wird automatisch auf neue E-Mails geprüft.</p>
                     <div class="spinner">
                         <div class="rect1"></div>
                         <div class="rect2"></div>
@@ -268,32 +269,32 @@ function printMessageBody($email, $purifier) {
     <!-- Footer mit Datenschutz und Details -->
     <footer class="mt-5">
         <div class="details">
-            <h3>Details</h3>
-            <p>Diese Einweg-Mailbox hält deine Haupt-Mailbox frei von Spam.</p>
-            <p>Wähle eine Adresse und verwende sie auf Webseiten, denen du nicht voll vertrauen kannst oder wo du deine Haupt-E-Mail-Adresse nicht verwenden möchtest. Wenn du fertig bist, kannst du diese Mailbox einfach vergessen. Der ganze Spam bleibt hier, und deine Haupt-Mailbox bleibt sauber.</p>
-            <p><strong>Hinweis:</strong> Alle E-Mails sind öffentlich zugänglich, wenn die Adresse bekannt ist. Verwende diese Adresse nicht für sensible Daten.</p>
+            <h3 id="t-details-title">Details</h3>
+            <p id="t-details-p1">Diese Einweg-Mailbox hält deine Haupt-Mailbox frei von Spam.</p>
+            <p id="t-details-p2">Wähle eine Adresse und verwende sie auf Webseiten, denen du nicht voll vertrauen kannst oder wo du deine Haupt-E-Mail-Adresse nicht verwenden möchtest. Wenn du fertig bist, kannst du diese Mailbox einfach vergessen. Der ganze Spam bleibt hier, und deine Haupt-Mailbox bleibt sauber.</p>
+            <p><strong id="t-note-label">Hinweis:</strong> <span id="t-note-p">Alle E-Mails sind öffentlich zugänglich, wenn die Adresse bekannt ist. Verwende diese Adresse nicht für sensible Daten.</span></p>
         </div>
 
         <div class="privacy">
-            <h3>Datenschutz</h3>
-            <h5>Beschreibung und Umfang der Datenverarbeitung</h5>
-            <p>Folgende Daten werden im Rahmen der Erbringung des Einweg-E-Mail-Dienstes gespeichert:</p>
+            <h3 id="t-privacy-title">Datenschutz</h3>
+            <h5 id="t-privacy-desc">Beschreibung und Umfang der Datenverarbeitung</h5>
+            <p id="t-privacy-p1">Folgende Daten werden im Rahmen der Erbringung des Einweg-E-Mail-Dienstes gespeichert:</p>
             <ul>
-                <li>Nutzdaten: E-Mails inklusive Inhalt und Anhang</li>
-                <li>Verkehrsdaten: Absender, Empfänger, Nachrichten-ID, Größe der versandten oder empfangenen E-Mail</li>
+                <li id="t-usage-data">Nutzdaten: E-Mails inklusive Inhalt und Anhang</li>
+                <li id="t-traffic-data">Verkehrsdaten: Absender, Empfänger, Nachrichten-ID, Größe der versandten oder empfangenen E-Mail</li>
             </ul>
-            <h5>Grundlage für die Datenverarbeitung</h5>
-            <p>Die Verarbeitung der Daten dient der Bereitstellung und Funktionalität des Einweg-E-Mail-Dienstes.</p>
-            <h5>Dauer der Speicherung</h5>
-            <p>Nutzungsdaten werden nach 1 Tag gelöscht. Verkehrsdaten werden nach Ablauf der gesetzlichen Aufbewahrungsfrist gelöscht.</p>
-            <h5>Beseitigungsmöglichkeit der Mails</h5>
-            <p>Der Nutzer kann die E-Mails jederzeit über ein integriertes Forumular löschen. Die Mails werden dann direkt vom Mailserver gelöscht. </p>
+            <h5 id="t-basis-title">Grundlage für die Datenverarbeitung</h5>
+            <p id="t-basis-p">Die Verarbeitung der Daten dient der Bereitstellung und Funktionalität des Einweg-E-Mail-Dienstes.</p>
+            <h5 id="t-retention-title">Dauer der Speicherung</h5>
+            <p id="t-retention-p">Nutzungsdaten werden nach 1 Tag gelöscht. Verkehrsdaten werden nach Ablauf der gesetzlichen Aufbewahrungsfrist gelöscht.</p>
+            <h5 id="t-deletion-title">Beseitigungsmöglichkeit der Mails</h5>
+            <p id="t-deletion-p">Der Nutzer kann die E-Mails jederzeit über ein integriertes Forumular löschen. Die Mails werden dann direkt vom Mailserver gelöscht. </p>
         </div>
 
         <p class="text-center mt-4">
             <small>
                 yourdevice.ch |
-                Quellcode: <a href="https://github.com/warioishere/disposable-mailbox.git" target="_blank"><strong>warioishere/disposable-mailbox</strong></a>
+                <span id="t-source">Quellcode:</span> <a href="https://github.com/warioishere/disposable-mailbox.git" target="_blank"><strong>warioishere/disposable-mailbox</strong></a>
             </small>
         </p>
     </footer>
@@ -310,19 +311,149 @@ function printMessageBody($email, $purifier) {
 <script>
     var htmlEl = document.documentElement;
     var toggle = document.getElementById('theme-toggle');
+    var langToggle = document.getElementById('language-toggle');
+
+    var translations = {
+        de: {
+            newEmail: 'Neue E-Mail',
+            newEmailReceived: 'empfangen.',
+            reload: 'Neu laden!',
+            headerTitle: 'Deine Einweg-Mailbox',
+            headerSubtitle: 'Erstelle schnell und einfach eine temporäre E-Mail-Adresse!',
+            copy: 'Kopieren',
+            randomAddress: 'Zufällige E-Mail Adresse',
+            customAddress: 'Oder erstelle deine eigene Adresse und bestätige mit Enter:',
+            openMailbox: 'Mailbox öffnen',
+            from: 'Von:',
+            subject: 'Betreff:',
+            date: 'Datum:',
+            emptyBox: 'Die Mailbox ist leer. Es wird automatisch auf neue E-Mails geprüft.',
+            details: 'Details',
+            detailsP1: 'Diese Einweg-Mailbox hält deine Haupt-Mailbox frei von Spam.',
+            detailsP2: 'Wähle eine Adresse und verwende sie auf Webseiten, denen du nicht voll vertrauen kannst oder wo du deine Haupt-E-Mail-Adresse nicht verwenden möchtest. Wenn du fertig bist, kannst du diese Mailbox einfach vergessen. Der ganze Spam bleibt hier, und deine Haupt-Mailbox bleibt sauber.',
+            note: 'Hinweis:',
+            noteP: 'Alle E-Mails sind öffentlich zugänglich, wenn die Adresse bekannt ist. Verwende diese Adresse nicht für sensible Daten.',
+            privacy: 'Datenschutz',
+            privacyDesc: 'Beschreibung und Umfang der Datenverarbeitung',
+            privacyP1: 'Folgende Daten werden im Rahmen der Erbringung des Einweg-E-Mail-Dienstes gespeichert:',
+            usageData: 'Nutzdaten: E-Mails inklusive Inhalt und Anhang',
+            trafficData: 'Verkehrsdaten: Absender, Empfänger, Nachrichten-ID, Größe der versandten oder empfangenen E-Mail',
+            basis: 'Grundlage für die Datenverarbeitung',
+            basisP: 'Die Verarbeitung der Daten dient der Bereitstellung und Funktionalität des Einweg-E-Mail-Dienstes.',
+            retention: 'Dauer der Speicherung',
+            retentionP: 'Nutzungsdaten werden nach 1 Tag gelöscht. Verkehrsdaten werden nach Ablauf der gesetzlichen Aufbewahrungsfrist gelöscht.',
+            deletion: 'Beseitigungsmöglichkeit der Mails',
+            deletionP: 'Der Nutzer kann die E-Mails jederzeit über ein integriertes Forumular löschen. Die Mails werden dann direkt vom Mailserver gelöscht.',
+            download: 'Herunterladen',
+            delete: 'Löschen',
+            sourceCode: 'Quellcode:'
+        },
+        en: {
+            newEmail: 'New Email',
+            newEmailReceived: 'received.',
+            reload: 'Reload!',
+            headerTitle: 'Your Disposable Mailbox',
+            headerSubtitle: 'Create a temporary email address quickly and easily!',
+            copy: 'Copy',
+            randomAddress: 'Random email address',
+            customAddress: 'Or create your own address and confirm with Enter:',
+            openMailbox: 'Open mailbox',
+            from: 'From:',
+            subject: 'Subject:',
+            date: 'Date:',
+            emptyBox: 'The mailbox is empty. Checking for new emails automatically.',
+            details: 'Details',
+            detailsP1: 'This disposable mailbox keeps your main mailbox free of spam.',
+            detailsP2: 'Choose an address and use it on websites you don\'t fully trust or where you don\'t want to use your main email address. When you are done, you can simply forget this mailbox. All the spam stays here and your main mailbox remains clean.',
+            note: 'Note:',
+            noteP: 'All emails are publicly accessible if the address is known. Do not use this address for sensitive data.',
+            privacy: 'Privacy',
+            privacyDesc: 'Description and scope of data processing',
+            privacyP1: 'The following data is stored as part of providing the disposable email service:',
+            usageData: 'Usage data: emails including content and attachments',
+            trafficData: 'Traffic data: sender, recipient, message ID, size of sent or received email',
+            basis: 'Basis for data processing',
+            basisP: 'The data is processed to provide and operate the disposable email service.',
+            retention: 'Retention period',
+            retentionP: 'Usage data is deleted after 1 day. Traffic data is deleted after the statutory retention period.',
+            deletion: 'How to delete mails',
+            deletionP: 'The user can delete emails at any time using an integrated form. The emails are then deleted directly from the mail server.',
+            download: 'Download',
+            delete: 'Delete',
+            sourceCode: 'Source code:'
+        }
+    };
+
+    var currentLang = localStorage.getItem('lang') || 'de';
+
+    function updateThemeToggleText() {
+        var isDark = htmlEl.classList.contains('dark-mode');
+        if (currentLang === 'de') {
+            toggle.textContent = isDark ? 'Heller Modus' : 'Dunkler Modus';
+        } else {
+            toggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
+        }
+    }
+
+    function applyTranslations(lang) {
+        document.getElementById('t-new-email').textContent = translations[lang].newEmail;
+        document.getElementById('t-received').textContent = translations[lang].newEmailReceived;
+        document.getElementById('t-reload').textContent = translations[lang].reload;
+        document.getElementById('header-title').textContent = translations[lang].headerTitle;
+        document.getElementById('header-subtitle').textContent = translations[lang].headerSubtitle;
+        document.getElementById('t-copy').textContent = translations[lang].copy;
+        document.getElementById('t-random').textContent = translations[lang].randomAddress;
+        document.getElementById('t-custom').textContent = translations[lang].customAddress;
+        document.getElementById('t-open').textContent = translations[lang].openMailbox;
+        document.querySelectorAll('.t-from').forEach(function(el){ el.textContent = translations[lang].from; });
+        document.querySelectorAll('.t-subject').forEach(function(el){ el.textContent = translations[lang].subject; });
+        document.querySelectorAll('.t-date').forEach(function(el){ el.textContent = translations[lang].date; });
+        document.querySelectorAll('.t-download').forEach(function(el){ el.textContent = translations[lang].download; });
+        document.querySelectorAll('.t-delete').forEach(function(el){ el.textContent = translations[lang].delete; });
+        var empty = document.getElementById('t-empty');
+        if (empty) empty.textContent = translations[lang].emptyBox;
+        document.getElementById('t-details-title').textContent = translations[lang].details;
+        document.getElementById('t-details-p1').textContent = translations[lang].detailsP1;
+        document.getElementById('t-details-p2').textContent = translations[lang].detailsP2;
+        document.getElementById('t-note-label').textContent = translations[lang].note;
+        document.getElementById('t-note-p').textContent = translations[lang].noteP;
+        document.getElementById('t-privacy-title').textContent = translations[lang].privacy;
+        document.getElementById('t-privacy-desc').textContent = translations[lang].privacyDesc;
+        document.getElementById('t-privacy-p1').textContent = translations[lang].privacyP1;
+        document.getElementById('t-usage-data').textContent = translations[lang].usageData;
+        document.getElementById('t-traffic-data').textContent = translations[lang].trafficData;
+        document.getElementById('t-basis-title').textContent = translations[lang].basis;
+        document.getElementById('t-basis-p').textContent = translations[lang].basisP;
+        document.getElementById('t-retention-title').textContent = translations[lang].retention;
+        document.getElementById('t-retention-p').textContent = translations[lang].retentionP;
+        document.getElementById('t-deletion-title').textContent = translations[lang].deletion;
+        document.getElementById('t-deletion-p').textContent = translations[lang].deletionP;
+        document.getElementById('t-source').textContent = translations[lang].sourceCode;
+        langToggle.textContent = lang === 'de' ? 'English' : 'Deutsch';
+        document.documentElement.lang = lang;
+    }
+
     var saved = localStorage.getItem('theme');
     if (saved === 'light') {
         htmlEl.classList.remove('dark-mode');
-        toggle.textContent = 'Dark Mode';
     } else {
         htmlEl.classList.add('dark-mode');
-        toggle.textContent = 'Light Mode';
     }
+
+    applyTranslations(currentLang);
+    updateThemeToggleText();
+
     toggle.addEventListener('click', function () {
         htmlEl.classList.toggle('dark-mode');
-        var isDark = htmlEl.classList.contains('dark-mode');
-        toggle.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        localStorage.setItem('theme', htmlEl.classList.contains('dark-mode') ? 'dark' : 'light');
+        updateThemeToggleText();
+    });
+
+    langToggle.addEventListener('click', function () {
+        currentLang = currentLang === 'de' ? 'en' : 'de';
+        localStorage.setItem('lang', currentLang);
+        applyTranslations(currentLang);
+        updateThemeToggleText();
     });
 </script>
 
