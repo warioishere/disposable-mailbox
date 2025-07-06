@@ -123,12 +123,17 @@ footer {
 
 /* Slightly lighter boxes than the page background */
 .dark-mode .container,
-.dark-mode .header-section,
+.dark-mode .header-section {
+    background-color: #1c1c1c;
+    color: #e0e0e0;
+}
+
 .dark-mode .email-content,
 .dark-mode .details,
 .dark-mode .privacy {
-    background-color: #1c1c1c;
+    background-color: #272727;
     color: #e0e0e0;
+    border-radius: 8px;
 }
 
 .dark-mode .email-content:hover {
@@ -141,9 +146,10 @@ footer {
 
 .dark-mode footer {
     background-color: #1c1c1c;
+    color: #fff;
 }
-.dark-mode footer, .dark-mode footer a {
-    color: #000;
+.dark-mode footer a {
+    color: #4ea8ff;
 }
 
 .dark-mode .alert,

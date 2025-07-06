@@ -136,7 +136,7 @@ function printMessageBody($email, $purifier) {
         }
         .details, .privacy {
             background-color: #f8f9fa;
-            border-radius: 5px;
+            border-radius: 8px;
             padding: 20px;
             margin-top: 20px;
         }
