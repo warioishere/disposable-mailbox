@@ -239,6 +239,16 @@ function printMessageBody($email, $purifier) {
                         <div class="mt-3">
                             <?php printMessageBody($email, $purifier); ?>
                         </div>
+                        <div class="email-actions mt-2 text-right">
+                            <a href="?action=download_email&email_id=<?php echo $email->id; ?>&address=<?php echo $user->address; ?>"
+                               class="btn btn-outline-primary btn-sm" title="Download">
+                                <i class="fas fa-download"></i> Download
+                            </a>
+                            <a href="?action=delete_email&email_id=<?php echo $email->id; ?>&address=<?php echo $user->address; ?>"
+                               class="btn btn-outline-danger btn-sm" title="Delete">
+                                <i class="fas fa-trash"></i> Delete
+                            </a>
+                        </div>
                     </div>
                 <?php endforeach;
             } else { ?>
